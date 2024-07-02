@@ -3,6 +3,7 @@
 #include <thread>
 #include <algorithm>
 #include <cctype>
+#include <memory>
 
 std::mutex g_file_mutex;
 
@@ -58,7 +59,8 @@ int main(int argc, char *argv[])
         int clientSocket{server.acceptConnection()};
 
         // Создание нового потока для обмена сообщениями с клиентом clientSocket
-        std::thread *thread = new std::thread(threadFunc, std::ref(server), clientSocket);
+        auto thread = std::make_unique<std::thread>(std::bind(&threadFunc, std::ref(server), clientSocket));
+        thread->detach();
     }
 
     return 0;

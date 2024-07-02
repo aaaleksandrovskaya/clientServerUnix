@@ -16,7 +16,7 @@ public:
         createSocket();
     }
 
-    ~SocketUser()
+    virtual ~SocketUser()
     {
         closeSocket();
     }
